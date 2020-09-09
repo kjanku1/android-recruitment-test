@@ -51,7 +51,7 @@ class DetailsFragment(item: Int) : Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.list_fragment2, container, false);
+        rootView = inflater.inflate(R.layout.list_fragment, container, false);
         initView()
         return rootView
     }
@@ -98,7 +98,7 @@ class DetailsFragment(item: Int) : Fragment(){
                     URL("https://jsonplaceholder.typicode.com/users").readText()
                 inputStringUsers = apiResponseUsers
                 inputString = DownloadedData(inputStringPhoto,inputStringAlbum,inputStringUsers)
-                Log.d("HTTP_JSON", inputStringPhoto)
+                //Log.d("HTTP_JSON", inputStringPhoto)
             } catch (je: JSONException) {
                 Log.e("JSON_ERROR", je.message)
             }
@@ -116,9 +116,9 @@ class DetailsFragment(item: Int) : Fragment(){
         val listArray = JSONArray(jsonString.photos)
         val listArrayAlbum = JSONArray(jsonString.albums)
         val listArrayUser = JSONArray(jsonString.users)
-        var i = pos
+        var i = 0
         var numIterations = listArray.length()
-        while(i == pos/*< numIterations*/){
+        while(i < numIterations){
             val listObject: JSONObject = listArray.getJSONObject(i)
             val albumObject: JSONObject = listArrayAlbum.getJSONObject(listObject.getInt("albumId"))
             val userObject: JSONObject = listArrayUser.getJSONObject(albumObject.getInt("userId"))
@@ -126,6 +126,7 @@ class DetailsFragment(item: Int) : Fragment(){
             item.photoId = listObject.getInt("id")
             item.albumTitle = albumObject.getString("title")
             item.photoTitle = listObject.getString("title")
+            item.albumId = listObject.getInt("id")
             item.url = listObject.getString("url")
             item.username = userObject.getString("username")
             item.phone = userObject.getString("phone")
@@ -133,6 +134,11 @@ class DetailsFragment(item: Int) : Fragment(){
             arrayList.add(item)
             i++
         }
-        return arrayList
+        var result: ArrayList<Detail> = arrayList.filterTo (ArrayList<Detail>(),{ s -> s.photoId == pos+1 })
+        //val result: ArrayList<Detail> = arrayList.get(pos)
+        Log.d("HTTP_jeden", result.toString())
+        Log.d("HTTP_JSON", (pos+1).toString())
+
+        return result
     }
 }

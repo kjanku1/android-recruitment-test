@@ -13,7 +13,9 @@ import dog.snow.androidrecruittest.MainActivity
 import dog.snow.androidrecruittest.R
 import dog.snow.androidrecruittest.callback.OnItemClickListener
 import dog.snow.androidrecruittest.ui.adapter.ListAdapter
+import dog.snow.androidrecruittest.ui.model.Detail
 import dog.snow.androidrecruittest.ui.model.ListItem
+import kotlinx.android.synthetic.main.list_item.view.*
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -122,6 +124,8 @@ class ListFragment: Fragment() {
             arrayList.add(item)
             i++
         }
-        return arrayList
+       // var result: ArrayList<Detail> = arrayList.filterTo(ArrayList<Detail>(),{ s -> s.title == "" })//filterTo(ArrayList<Detail>(),{ s -> s.title == "" })
+
+        return arrayList//result
     }
 }
