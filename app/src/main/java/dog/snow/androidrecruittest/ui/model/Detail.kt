@@ -5,11 +5,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Detail(
-    val photoId: Int,
-    val photoTitle: String,
-    val albumTitle: String,
-    val username: String,
-    val email: String,
-    val phone: String,
-    val url: String
+    var photoId: Int?=null,
+    var photoTitle: String?=null,
+    var albumTitle: String?=null,
+    var username: String?=null,
+    var email: String?=null,
+    var phone: String?=null,
+    var url: String?=null
 ) : Parcelable

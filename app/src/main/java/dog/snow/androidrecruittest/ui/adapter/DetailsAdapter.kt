@@ -9,15 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import dog.snow.androidrecruittest.R
 import dog.snow.androidrecruittest.base.BaseRecyclerViewAdapter
-import dog.snow.androidrecruittest.ui.model.ListItem
-import kotlinx.android.synthetic.main.list_item.view.*
+import dog.snow.androidrecruittest.ui.model.Detail
+import kotlinx.android.synthetic.main.details_item.view.*
+import kotlinx.android.synthetic.main.list_item.view.tv_album_title
 
-class ListAdapter: BaseRecyclerViewAdapter<ListItem>() {
+class DetailsAdapter: BaseRecyclerViewAdapter<Detail>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.list_item,
+                R.layout.details_item,
                 parent,
                 false
             )
@@ -30,32 +31,37 @@ class ListAdapter: BaseRecyclerViewAdapter<ListItem>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
+        private val imageView: ImageView = view.iv_photo
+        private val textView3: TextView = view.tv_photo_title
         private val textView1: TextView = view.tv_album_title
-        private val textView2: ImageView = view.iv_id
-        private val textView3: TextView = view.tv_title
-        private val textView4: TextView = view.tv_url
-        private val textView5: TextView = view.tv_thumbUrl
+        private val textView2: TextView = view.tv_username
+        private val textView4: TextView = view.tv_email
+        private val textView5: TextView = view.tv_phone
         init {
             view.setOnClickListener(this)
         }
 
-        fun setUpView(model: ListItem) {
+        fun setUpView(model: Detail) {
 
-            itemView.tv_title.text = model.title
-            itemView.tv_album_title.text = model.albumId.toString()
-            itemView.tv_url.text = model.url
-            itemView.tv_thumbUrl.text = model.thumbnailUrl
-            textView1.text = model?.albumId.toString()
-            textView3.text = model?.title
-            textView4.text = model?.url
-            textView5.text = model?.thumbnailUrl
             if (adapterPosition != null) {
                 Picasso.get()
-                    .load(model.thumbnailUrl)
+                    .load(model.url)
                     .centerCrop()
                     .fit()
-                    .into(textView2)
+                    .into(imageView)
             }
+            itemView.tv_photo_title.text = model.photoTitle
+            itemView.tv_album_title.text = model.albumTitle
+            itemView.tv_username.text = model.username
+            itemView.tv_email.text = model.email
+            itemView.tv_phone.text = model.phone
+
+            textView1.text = model?.albumTitle
+            textView2.text = model?.username
+            textView3.text = model?.photoTitle
+            textView4.text = model?.email
+            textView5.text = model?.phone
+
         }
 
         override fun onClick(v: View?) {

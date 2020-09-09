@@ -9,3 +9,4 @@ data class RawAlbum(
     val userId: Int,
     val title: String
 ) : Parcelable
+
