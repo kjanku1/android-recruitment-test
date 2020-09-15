@@ -1,4 +1,4 @@
-package dog.snow.androidrecruittest.repository.model
+package dog.snow.androidrecruittest.database
 
 import android.os.Parcelable
 import android.util.Log
@@ -10,19 +10,18 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.net.URL
 
-
-//@Entity(tableName = "photos_table")
 @Parcelize
-data class RawPhoto(
+@Entity(tableName = "photos_table")
+data class Photo(
     val id: Int,
     val albumId: Int,
     val title: String,
     val url: String,
-    val thumbnailUrl: String): Parcelable/* {
+    val thumbnailUrl: String) : Parcelable {
 
     @PrimaryKey(autoGenerate = false)
     var photo_id = id
-}*/
+}
 
 class RawPhotoStream {
 

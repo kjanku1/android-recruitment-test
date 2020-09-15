@@ -1,5 +1,6 @@
 package dog.snow.androidrecruittest.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +50,8 @@ class DetailsAdapter: BaseRecyclerViewAdapter<Detail>() {
                     .centerCrop()
                     .fit()
                     .into(imageView)
-            }
+            } else {
+                Log.e("ADAPPTER  ERROR", "position IS NULL")}
             itemView.tv_photo_title.text = model.photoTitle
             itemView.tv_album_title.text = model.albumTitle
             itemView.tv_username.text = model.username
@@ -63,7 +65,6 @@ class DetailsAdapter: BaseRecyclerViewAdapter<Detail>() {
             textView5.text = model?.phone
 
         }
-
         override fun onClick(v: View?) {
             itemClickListener.onItemClick(adapterPosition, v)
         }

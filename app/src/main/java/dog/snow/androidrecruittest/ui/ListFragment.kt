@@ -21,11 +21,14 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ListFragment: Fragment() {
     protected lateinit var rootView: View
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: ListAdapter
+    lateinit var parsedJsonList : ArrayList<ListItem>
 
     companion object {
         var TAG = ListFragment::class.java.simpleName
@@ -66,7 +69,7 @@ class ListFragment: Fragment() {
         setUpAdapter()
         initializeRecyclerView()
         val jsonString:String = runBlocking(Dispatchers.IO){ readJsonFromWebString() }
-        val parsedJsonList : ArrayList<ListItem> =  parseJsonStringToList(jsonString)
+        val parsedJsonList =  parseJsonStringToList(jsonString)
         adapter.addItems(parsedJsonList)
     }
     private fun setUpAdapter() {
@@ -76,7 +79,9 @@ class ListFragment: Fragment() {
                 var item = adapter.getItem(position)
                 var pos = position
                 var mainActivity : MainActivity = activity as MainActivity
-                mainActivity.loadDetails(pos)
+                if (item != null) {
+                    mainActivity.loadDetails(pos)
+                } else { Log.e("Array ERROR", "item IS NULL")}
             }
 
         })
@@ -95,7 +100,7 @@ class ListFragment: Fragment() {
                 val apiResponse =
                     URL("https://jsonplaceholder.typicode.com/photos?_limit=100").readText()
                 inputString = apiResponse
-                Log.d("HTTP_JSON", inputString)
+                //Log.d("HTTP_JSON", inputString)
             } catch (je: JSONException) {
                 Log.e("JSON_ERROR", je.message)
             }
@@ -109,7 +114,7 @@ class ListFragment: Fragment() {
         return inputString
     }
     private fun parseJsonStringToList(jsonString: String): ArrayList<ListItem> {
-        val arrayList :ArrayList<ListItem> = ArrayList<ListItem>(0)
+        val arrayList : ArrayList<ListItem> = ArrayList<ListItem>(0)
         val listArray = JSONArray(jsonString)
         var i = 0
         var numIterations = listArray.length()
@@ -128,4 +133,15 @@ class ListFragment: Fragment() {
 
         return arrayList//result
     }
+
+    /*private fun filter(jsonString: String, searchVal: String) {
+        var filteredList: ArrayList<ListItem> = ArrayList()
+        for (item: ListItem in parsedJsonList) {
+            if (item.title?.contains(searchVal.toLowerCase())!!) {
+                filteredList.add(item)
+            }
+        }
+        listAdapter.filterList(filteredList)
+    }*/
+
 }

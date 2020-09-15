@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dog.snow.androidrecruittest.repository.model.RawPhotoStream
 import dog.snow.androidrecruittest.ui.DetailsFragment
 import dog.snow.androidrecruittest.ui.ListFragment
 import dog.snow.androidrecruittest.ui.model.ListItem

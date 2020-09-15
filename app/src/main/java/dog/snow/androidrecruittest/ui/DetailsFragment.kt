@@ -24,10 +24,10 @@ class DetailsFragment(item: Int) : Fragment(){
     protected lateinit var rootView: View
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: DetailsAdapter
-    val pos = item
+    private val pos = item
     companion object {
         var TAG = ListFragment::class.java.simpleName
-        const val ARG_POSITION: String = "positioin"
+        const val ARG_POSITION: String = "position"
 
         fun newInstance(): ListFragment {
             var fragment = ListFragment();
@@ -59,7 +59,7 @@ class DetailsFragment(item: Int) : Fragment(){
     private fun initView(){
         setUpAdapter()
         initializeRecyclerView()
-        val jsonString:DownloadedData = runBlocking(Dispatchers.IO){ readJsonFromWebString(pos) }
+        val jsonString: DownloadedData = runBlocking(Dispatchers.IO){ readJsonFromWebString(pos) }
         val parsedJsonList : ArrayList<Detail> =  parseJsonStringToList(jsonString)
         adapter.addItems(parsedJsonList)
     }
@@ -118,6 +118,8 @@ class DetailsFragment(item: Int) : Fragment(){
         val listArrayUser = JSONArray(jsonString.users)
         var i = 0
         var numIterations = listArray.length()
+        Log.d("Array length", numIterations.toString())
+
         while(i < numIterations){
             val listObject: JSONObject = listArray.getJSONObject(i)
             val albumObject: JSONObject = listArrayAlbum.getJSONObject(listObject.getInt("albumId"))
@@ -126,7 +128,7 @@ class DetailsFragment(item: Int) : Fragment(){
             item.photoId = listObject.getInt("id")
             item.albumTitle = albumObject.getString("title")
             item.photoTitle = listObject.getString("title")
-            item.albumId = listObject.getInt("id")
+            item.albumId = listObject.getInt("albumId")
             item.url = listObject.getString("url")
             item.username = userObject.getString("username")
             item.phone = userObject.getString("phone")
@@ -134,10 +136,12 @@ class DetailsFragment(item: Int) : Fragment(){
             arrayList.add(item)
             i++
         }
-        var result: ArrayList<Detail> = arrayList.filterTo (ArrayList<Detail>(),{ s -> s.photoId == pos+1 })
-        //val result: ArrayList<Detail> = arrayList.get(pos)
+
+        var result: ArrayList<Detail> = arrayList.filterTo(ArrayList<Detail>(), { s -> s.photoId == pos+1 })
         Log.d("HTTP_jeden", result.toString())
         Log.d("HTTP_JSON", (pos+1).toString())
+        //val poser: ListItem? = pos
+        //result.add(pos)
 
         return result
     }
